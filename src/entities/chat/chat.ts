@@ -2,7 +2,7 @@ import { Queue } from '@/shared';
 import { defineStore } from 'pinia';
 import { Client } from 'tmi.js';
 
-interface IChatMessage {
+export interface IChatMessage {
   message: string;
   username: string;
   reply_parent_msg_id?: string
@@ -33,19 +33,7 @@ export const useChatModel = defineStore('chatModel', {
     messages: undefined,
   }),
   actions: {
-    clearState() {
-      this.connected = false;
-      this.channel = undefined;
-
-      if (this.client) {
-        this.client.disconnect();
-
-        this.client = undefined;
-      }
-
-      this.messages = undefined;
-    },
-    setChannel(channel: string) {
+    changeChannel(channel: string) {
       this.channel = channel.length ? channel : undefined;
     },
     startListening() {
@@ -69,6 +57,8 @@ export const useChatModel = defineStore('chatModel', {
 
       this.client.on('message', (_wat, tags, message, _self) => {
         const badges = tags.badges;
+
+        console.log(message)
 
         this.messages?.enqueue({
           message,
