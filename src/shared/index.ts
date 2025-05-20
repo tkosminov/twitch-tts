@@ -1,3 +1,5 @@
+export * from './queue'
+
 export enum EI18nLang {
   RU = 'ru',
   EN = 'en',
