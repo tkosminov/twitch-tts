@@ -2,26 +2,20 @@ import { Queue } from '@/shared';
 import { defineStore } from 'pinia';
 import { Client } from 'tmi.js';
 
-export interface IChatMessage {
-  message: string;
-  username: string;
-  reply_parent_msg_id?: string
-  reply_parent_user_login?: string;
-
-  is_subscriber: boolean;
-  is_vip: boolean;
-  is_premium: boolean;
-  is_broadcaster: boolean;
-  is_moderator: boolean;
-  is_admin: boolean;
-}
-
 interface IState {
   twitch_uri: string;
   connected: boolean;
   channel: string | undefined;
   client: Client | undefined;
-  messages: Queue<IChatMessage> | undefined;
+  messages: Queue<string> | undefined;
+
+  announce_username: boolean;
+  exclude_reply_message: boolean;
+  exclude_bot_commands: boolean;
+  only_from_paid_users: boolean;
+  only_from_moderation_users: boolean;
+  only_with_tts_command: boolean;
+  tts_command: string;
 }
 
 export const useChatModel = defineStore('chatModel', {
@@ -31,17 +25,46 @@ export const useChatModel = defineStore('chatModel', {
     channel: undefined,
     client: undefined,
     messages: undefined,
+
+    announce_username: true,
+    exclude_reply_message: false,
+    exclude_bot_commands: false,
+    only_from_paid_users: false,
+    only_from_moderation_users: false,
+    only_with_tts_command: false,
+    tts_command: '!tts'
   }),
   actions: {
     changeChannel(channel: string) {
       this.channel = channel.length ? channel : undefined;
+    },
+    changeAnnounceUsername(announce_username: boolean) {
+      this.announce_username = announce_username
+    },
+    changeExcludeReplyMessage(exclude_reply_message: boolean) {
+      this.exclude_reply_message = exclude_reply_message
+    },
+    changeExcludeBotCommands(exclude_bot_commands: boolean) {
+      this.exclude_bot_commands = exclude_bot_commands
+    },
+    changeOnlyFromPaidUsers(only_from_paid_users: boolean) {
+      this.only_from_paid_users = only_from_paid_users
+    },
+    changeOnlyFromModerationUsers(only_from_moderation_users: boolean) {
+      this.only_from_moderation_users = only_from_moderation_users
+    },
+    changeOnlyWithTtsCommand(only_with_tts_command: boolean) {
+      this.only_with_tts_command = only_with_tts_command
+    },
+    changeTtsCommand(tts_command: string) {
+      this.tts_command = tts_command
     },
     startListening() {
       if (!this.channel) {
         return
       }
 
-      this.messages = new Queue<IChatMessage>;
+      this.messages = new Queue<string>;
 
       this.client = new Client({
         connection: {
@@ -57,23 +80,37 @@ export const useChatModel = defineStore('chatModel', {
 
       this.client.on('message', (_wat, tags, message, _self) => {
         const badges = tags.badges;
+        const username = tags['display-name'] || tags.username || '';
+        const msg = this.announce_username ? `${username} ${message}` : message
 
-        console.log(message)
+        const validations = []
 
-        this.messages?.enqueue({
-          message,
-          username: tags['display-name'] || tags.username || '',
-          reply_parent_msg_id: tags['reply-parent-msg-id'],
-          reply_parent_user_login: tags['reply-parent-user-login'],
+        validations.push(username !== this.channel)
 
-          is_subscriber: !!tags.subscriber,
-          is_vip: !!badges?.vip,
-          is_premium: !!badges?.premium,
-          is_broadcaster: !!badges?.broadcaster,
-          is_moderator: !!(badges?.moderator || badges?.global_mod),
-          is_admin: !!badges?.admin,
-        })
-      });
+        if (this.exclude_reply_message) {
+          validations.push(!tags['reply-parent-msg-id'])
+        }
+
+        if (this.exclude_bot_commands) {
+          // validations.push(!message.startsWith('!'))
+        }
+
+        if (this.only_from_paid_users) {
+          validations.push(!!tags.subscriber || !!badges?.vip || !!badges?.premium)
+        }
+
+        if (this.only_from_moderation_users) {
+          validations.push(!!badges?.broadcaster || !!badges?.moderator || !!badges?.global_mod || !!badges?.admin)
+        }
+
+        if (this.only_with_tts_command) {
+          validations.push(message.startsWith(this.tts_command))
+        }
+
+        if (validations.every((valid) => valid)) {
+          this.messages?.enqueue(msg)
+        }
+      })
     },
     stopListening() {
       if (this.client) {

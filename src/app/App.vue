@@ -5,7 +5,7 @@
     <v-container class="mt-6">
       <VoiceWidget />
 
-      <ListeningWidget />
+      <ChatListeningWidget />
 
       <CopyLinkFeature />
     </v-container>
@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { NavbarWidget, ListeningWidget, VoiceWidget } from '@/widgets'
+import { NavbarWidget, ChatListeningWidget, VoiceWidget } from '@/widgets'
 import { CopyLinkFeature } from '@/features'
 </script>
 

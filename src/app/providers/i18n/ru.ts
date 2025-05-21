@@ -6,13 +6,6 @@ export const ru = {
       copy: 'копировать',
       description: 'Ниже приведен URL, который вы можете разместить в качестве источника браузера в OBS'
     },
-    listening_channel: {
-      label: 'название канала',
-    },
-    listening_action: {
-      btn_start: 'подключиться',
-      btn_stop: 'отключиться',
-    },
     voice: {
       label: 'Голос'
     },
@@ -22,22 +15,29 @@ export const ru = {
     voice_speed: {
       chip: 'Скорость воспроизведения'
     },
-    voice_announce_username: {
+    chat_listening_channel: {
+      label: 'название канала',
+    },
+    chat_listening_action: {
+      btn_start: 'подключиться',
+      btn_stop: 'отключиться',
+    },
+    chat_announce_username: {
       chip: "Объявлять имя пользователя перед сообщением"
     },
-    voice_exclude_reply_message: {
+    chat_exclude_reply_message: {
       chip: "Исключать общение между участниками чата"
     },
-    voice_exclude_bot_commands: {
+    chat_exclude_bot_commands: {
       chip: "Исключать команды для ботов"
     },
-    voice_only_from_paid_users: {
+    chat_only_from_paid_users: {
       chip: "Озвучивать сообщения только от платных пользователей"
     },
-    voice_only_from_moderation_users: {
+    chat_only_from_moderation_users: {
       chip: "Озвучивать сообщения только от модераторов"
     },
-    voice_only_with_tts_command: {
+    chat_only_with_tts_command: {
       chip: "Озвучивать только по команде"
     },
   }

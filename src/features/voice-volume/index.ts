@@ -1,3 +1,3 @@
-import VoiceVolumeFeature from './ui/VoiceVolume.vue';
+import VoiceVolumeFeature from './ui/Volume.vue';
 
 export { VoiceVolumeFeature };

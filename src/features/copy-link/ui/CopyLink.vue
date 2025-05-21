@@ -71,15 +71,15 @@ function openDialog() {
   }&speed=${
     voice_model.speed
   }&announce_username=${
-    voice_model.announce_username
+    chat_model.announce_username
   }&exclude_reply_message=${
-    voice_model.exclude_reply_message
+    chat_model.exclude_reply_message
   }&exclude_bot_commands=${
-    voice_model.exclude_bot_commands
+    chat_model.exclude_bot_commands
   }&only_from_paid_users=${
-    voice_model.only_from_paid_users
+    chat_model.only_from_paid_users
   }&only_from_moderation_users=${
-    voice_model.only_from_moderation_users
+    chat_model.only_from_moderation_users
   }`
 }
 

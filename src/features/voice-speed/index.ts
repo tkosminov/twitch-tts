@@ -1,3 +1,3 @@
-import VoiceSpeedFeature from './ui/VoiceSpeed.vue';
+import VoiceSpeedFeature from './ui/Speed.vue';
 
 export { VoiceSpeedFeature };

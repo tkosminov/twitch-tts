@@ -7,11 +7,6 @@
       <VoiceFeature />
       <VoiceVolumeFeature />
       <VoiceSpeedFeature />
-      <VoiceAnnounceUsernameFeature />
-      <VoiceExcludeReplyMessageFeature />
-      <VoiceExcludeBotCommandsFeature />
-      <VoiceOnlyFromModerationUsersFeature />
-      <VoiceOnlyFromPaidUsersFeature />
     </v-col>
   </v-row>
 </template>
@@ -21,11 +16,6 @@ import {
   VoiceFeature,
   VoiceVolumeFeature,
   VoiceSpeedFeature,
-  VoiceAnnounceUsernameFeature,
-  VoiceExcludeReplyMessageFeature,
-  VoiceExcludeBotCommandsFeature,
-  VoiceOnlyFromModerationUsersFeature,
-  VoiceOnlyFromPaidUsersFeature
 } from '@/features';
 </script>
 
