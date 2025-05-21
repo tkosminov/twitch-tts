@@ -64,6 +64,8 @@ function openDialog() {
 
   link.value = `${
     window.location.origin
+  }${
+    window.location.pathname
   }?channelname=${
     chat_model.channel
   }&volume=${

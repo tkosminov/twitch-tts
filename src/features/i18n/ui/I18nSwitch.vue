@@ -2,7 +2,7 @@
   <v-menu>
     <template v-slot:activator="{ props }">
       <v-btn v-bind="props">
-        <img style="width: 20px;" :src="`/langs/${current_lang}.svg`" />
+        <img style="width: 20px;" :src="`/twitch-tts/langs/${current_lang}.svg`" />
         {{ current_lang }}
       </v-btn>
     </template>
@@ -14,7 +14,7 @@
         @click="setCurrentLang(lang)"
       >
         <v-list-item-title>
-          <img style="width: 20px;" :src="`/langs/${lang}.svg`" />
+          <img style="width: 20px;" :src="`/twitch-tts/langs/${lang}.svg`" />
           {{ lang }}
         </v-list-item-title>
       </v-list-item>
