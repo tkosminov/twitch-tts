@@ -1,4 +1,4 @@
-import { Queue } from '@/shared';
+import { Queue, removeEmotes } from '@/shared';
 import { defineStore } from 'pinia';
 import { Client } from 'tmi.js';
 
@@ -10,6 +10,7 @@ interface IState {
   messages: Queue<string> | undefined;
 
   announce_username: boolean;
+  skip_emotes_in_message: boolean;
   exclude_reply_message: boolean;
   exclude_bot_commands: boolean;
   only_from_paid_users: boolean;
@@ -27,6 +28,7 @@ export const useChatModel = defineStore('chatModel', {
     messages: undefined,
 
     announce_username: true,
+    skip_emotes_in_message: true,
     exclude_reply_message: false,
     exclude_bot_commands: false,
     only_from_paid_users: false,
@@ -34,6 +36,11 @@ export const useChatModel = defineStore('chatModel', {
     only_with_tts_command: false,
     tts_command: '!tts'
   }),
+  getters: {
+    current_message(state) {
+      return state.messages?.dequeue()
+    }
+  },
   actions: {
     changeChannel(channel: string) {
       this.channel = channel.length ? channel : undefined;
@@ -81,7 +88,6 @@ export const useChatModel = defineStore('chatModel', {
       this.client.on('message', (_wat, tags, message, _self) => {
         const badges = tags.badges;
         const username = tags['display-name'] || tags.username || '';
-        const msg = this.announce_username ? `${username} ${message}` : message
 
         const validations = []
 
@@ -92,7 +98,7 @@ export const useChatModel = defineStore('chatModel', {
         }
 
         if (this.exclude_bot_commands) {
-          // validations.push(!message.startsWith('!'))
+          validations.push(!message.startsWith('!') && !message.startsWith(this.tts_command))
         }
 
         if (this.only_from_paid_users) {
@@ -108,7 +114,25 @@ export const useChatModel = defineStore('chatModel', {
         }
 
         if (validations.every((valid) => valid)) {
-          this.messages?.enqueue(msg)
+          let msg = message;
+
+          if (this.skip_emotes_in_message) {
+            if (tags.emotes) {
+              const emotes_range = Object.values(tags.emotes).flat();
+
+              msg = removeEmotes(msg, emotes_range)
+            }
+          }
+
+          msg = msg.trim();
+
+          if (msg.length) {
+            if (this.announce_username) {
+              msg = `${username} ${msg}`
+            }
+          
+            this.messages?.enqueue(msg)
+          }
         }
       })
     },

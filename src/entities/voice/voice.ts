@@ -26,17 +26,28 @@ export const useVoiceModel = defineStore('voiceModel', {
     changeVoice(voice: SpeechSynthesisVoice | undefined) {
       this.voice = voice;
     },
-    speak(message: string) {
-      if (!this.voice) {
+    async speak(message: string) {
+      if (!this.voice || !message.length) {
         return;
       }
 
-      const utterance = new SpeechSynthesisUtterance(message);
-      utterance.volume = this.volume;
-      utterance.rate = this.speed;
-      utterance.voice = this.voice;
+      return new Promise((resolve, reject) => {
+        if (!this.voice) {
+          return reject()
+        }
 
-      this.synth.speak(utterance)
+        const utterance = new SpeechSynthesisUtterance(message);
+        utterance.volume = this.volume;
+        utterance.rate = this.speed;
+        utterance.voice = this.voice;
+  
+        this.synth.speak(utterance)
+  
+        utterance.addEventListener('end', () => {
+          return resolve(true)
+        })
+      })
+
     },
     cancelSpeak() {
       this.synth.cancel();

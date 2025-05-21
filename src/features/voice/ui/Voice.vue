@@ -3,7 +3,7 @@
     <v-col
       cols="12"
     >
-      <v-select
+      <v-autocomplete
         v-model="voice"
         :items="voice_model.voices"
         :label="$t('features.voice.label')"
@@ -11,7 +11,7 @@
         return-object
         hide-details
         @update:modelValue="changeVoice"
-      ></v-select>
+      ></v-autocomplete>
     </v-col>
   </v-row>
 </template>
