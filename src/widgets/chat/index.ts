@@ -1,3 +1,3 @@
-import ChatListeningWidget from './ui/Listening.vue';
+import ChatWidget from './ui/Chat.vue';
 
-export { ChatListeningWidget };
+export { ChatWidget };
