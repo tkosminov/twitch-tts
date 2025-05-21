@@ -32,10 +32,10 @@ export const en = {
       chip: "Exclude bot commands"
     },
     chat_only_from_paid_users: {
-      chip: "Speak only from paid users"
+      chip: "Speak messages only from paid users"
     },
     chat_only_from_moderation_users: {
-      chip: "Speak only from moderation"
+      chip: "Speak message only from moderation users"
     },
     chat_only_with_tts_command: {
       chip: "Speak only on custom command"
