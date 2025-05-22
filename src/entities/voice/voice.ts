@@ -37,7 +37,7 @@ export const useVoiceModel = defineStore('voiceModel', {
         }
 
         const utterance = new SpeechSynthesisUtterance(message);
-        utterance.volume = this.volume;
+        utterance.volume = this.volume / 100;
         utterance.rate = this.speed;
         utterance.voice = this.voice;
   
