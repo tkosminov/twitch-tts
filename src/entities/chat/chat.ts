@@ -27,10 +27,10 @@ export const useChatModel = defineStore('chatModel', {
     client: undefined,
     messages: undefined,
 
-    announce_username: true,
+    announce_username: false,
     skip_emotes_in_message: true,
-    exclude_reply_message: false,
-    exclude_bot_commands: false,
+    exclude_reply_message: true,
+    exclude_bot_commands: true,
     only_from_paid_users: false,
     only_from_moderation_users: false,
     only_with_tts_command: false,
