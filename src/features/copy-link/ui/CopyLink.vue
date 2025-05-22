@@ -16,7 +16,11 @@
     
         <v-card>
           <v-card-item>
-            {{ $t('features.copy_link.description') }}
+            {{ $t('features.copy_link.description_browser') }}
+          </v-card-item>
+
+          <v-card-item>
+            {{ $t('features.copy_link.description_obs') }}
           </v-card-item>
 
           <v-card-item>

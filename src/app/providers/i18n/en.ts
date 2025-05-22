@@ -4,7 +4,8 @@ export const en = {
       dialog: 'export',
       cancel: 'close',
       copy: 'copy',
-      description: 'Below is a url you can place as a browser source into OBS'
+      description_browser: 'Below is the URL where your selected parameters are saved. You can add it to your browser bookmarks so you don\'t have to set it up every time. Available voices are limited by your browser provider.',
+      description_obs: 'You can also use it in OBS for Custom Browser Docks. The OBS browser does not provide voices and will show those that are available offline in your OS. For Windows 10/11, you need to go to the language settings and download the language pack you need.',
     },
     voice: {
       label: 'Voice'
